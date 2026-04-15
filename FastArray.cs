@@ -8,26 +8,26 @@ using Unity.Collections.LowLevel.Unsafe;
 
 namespace kuro
 {
-    public struct UnsafeArrayBuffer<T> : IList<T>, IDisposable
+    public struct FastArray<T> : IList<T>, IDisposable
     {
         private static readonly ArrayPool<T> s_pool = ArrayPool<T>.Shared;
         private T[] _buffer;
         private int _capacity;
         private int _length;
 
-        public UnsafeArrayBuffer(int size) : this() => Resize(size);
+        public FastArray(int size) : this() => Resize(size);
 
-        public UnsafeArrayBuffer(ReadOnlySpan<T> span) : this()
+        public FastArray(ReadOnlySpan<T> span) : this()
         {
             this.AddRange(span);
         }
 
-        public UnsafeArrayBuffer(UnsafeArrayBuffer<T> buffer) : this()
+        public FastArray(FastArray<T> buffer) : this()
         {
             this.AddRange(buffer.AsSpan());
         }
 
-        public UnsafeArrayBuffer(IList<T> list) : this()
+        public FastArray(IList<T> list) : this()
         {
             var count = list.Count;
             if (count > 0)
